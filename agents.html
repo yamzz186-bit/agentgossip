@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentGossip - Select Agent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, #ffffff 0%, #fff9e6 100%); min-height: 100vh; color: #333; }
+        .header { background: linear-gradient(135deg, #ffd700, #ffeb3b); padding: 20px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3); }
+        .header h1 { color: #333; font-size: 1.5em; font-weight: 700; }
+        .header p { color: #666; font-size: 0.9em; }
+        .back-btn { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #333; text-decoration: none; font-size: 1.5em; font-weight: bold; transition: transform 0.3s; }
+        .back-btn:hover { transform: translateY(-50%) translateX(-5px); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        .page-title { text-align: center; margin-bottom: 40px; }
+        .page-title h2 { font-size: 2em; font-weight: 700; color: #333; margin-bottom: 10px; }
+        .page-title p { color: #888; font-size: 1em; }
+        .agent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .agent-card { background: #fff; border-radius: 25px; padding: 35px; text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; text-decoration: none; color: #333; display: block; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 2px solid transparent; }
+        .agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; transform: scaleX(0); transition: transform 0.4s; }
+        .agent-card.hacker::before { background: linear-gradient(90deg, #ffd700, #ffeb3b); }
+        .agent-card.queen::before { background: linear-gradient(90deg, #ff9800, #ffc107); }
+        .agent-card.wizard::before { background: linear-gradient(90deg, #ffeb3b, #ffd700); }
+        .agent-card:hover::before { transform: scaleX(1); }
+        .agent-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 25px 60px rgba(255, 215, 0, 0.25); border-color: #ffd700; }
+        .avatar-container { position: relative; width: 130px; height: 130px; margin: 0 auto 25px; }
+        .avatar { width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4em; position: relative; z-index: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .avatar.hacker { background: linear-gradient(135deg, #ffd700, #ffeb3b); }
+        .avatar.queen { background: linear-gradient(135deg, #ff9800, #ffc107); }
+        .avatar.wizard { background: linear-gradient(135deg, #ffeb3b, #ffd700); }
+        .avatar-ring { position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px; border-radius: 50%; border: 3px dashed #ffd700; animation: spin-ring 8s linear infinite; }
+        @keyframes spin-ring { to { transform: rotate(360deg); } }
+        .status-dot { position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #4caf50; border-radius: 50%; border: 4px solid #fff; animation: blink 2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .agent-name { font-size: 1.4em; font-weight: 700; margin-bottom: 8px; color: #333; }
+        .agent-role { font-size: 0.95em; color: #888; margin-bottom: 20px; }
+        .skills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; }
+        .skill-tag { background: #fff9e6; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; border: 1px solid #ffeb3b; color: #666; font-weight: 500; }
+        .stats { display: flex; justify-content: space-around; padding-top: 20px; border-top: 1px solid #eee; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.5em; font-weight: 700; color: #ffd700; }
+        .stat-label { font-size: 0.75em; color: #aaa; }
+        .select-btn { margin-top: 25px; padding: 14px 35px; border-radius: 30px; border: 2px solid #ffd700; background: linear-gradient(135deg, #ffd700, #ffeb3b); color: #333; font-weight: 600; font-size: 1em; cursor: pointer; transition: all 0.3s; display: inline-block; }
+        .agent-card:hover .select-btn { background: #333; color: #ffd700; border-color: #333; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="back-btn">←</a>
+        <h1>🤖 AgentGossip</h1>
+        <p>Select an agent to start gossiping</p>
+    </div>
+    <div class="container">
+        <div class="page-title">
+            <h2>👥 Choose Your Agent</h2>
+            <p>Each agent has unique skills and insider knowledge about hackathons</p>
+        </div>
+        <div class="agent-grid">
+            <a href="chat.html?agent=hacker" class="agent-card hacker">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar hacker">🤖</div>
+                    <div class="status-dot"></div>
+                </div>
+                <div class="agent-name">Agent_HackerBoy</div>
+                <div class="agent-role">Hackathon Hunter & Prize Tracker</div>
+                <div class="skills">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Swag Expert</span>
+                </div>
+                <div class="stats">
+                    <div class="stat"><div class="stat-value">47</div><div class="stat-label">Gossip</div></div>
+                    <div class="stat"><div class="stat-value">12</div><div class="stat-label">Wins</div></div>
+                    <div class="stat"><div class="stat-value">89%</div><div class="stat-label">Accuracy</div></div>
+                </div>
+                <div class="select-btn">SELECT →</div>
+            </a>
+            <a href="chat.html?agent=queen" class="agent-card queen">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar queen">👩‍💻</div>
+                    <div class="status-dot"></div>
+                </div>
+                <div class="agent-name">Agent_CodeQueen</div>
+                <div class="agent-role">Full Stack Developer & Community Lead</div>
+                <div class="skills">
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">AI/ML</span>
+                    <span class="skill-tag">Networking</span>
+                </div>
+                <div class="stats">
+                    <div class="stat"><div class="stat-value">63</div><div class="stat-label">Gossip</div></div>
+                    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Wins</div></div>
+                    <div class="stat"><div class="stat-value">92%</div><div class="stat-label">Accuracy</div></div>
+                </div>
+                <div class="select-btn">SELECT →</div>
+            </a>
+            <a href="chat.html?agent=wizard" class="agent-card wizard">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar wizard">🧙‍♂️</div>
+                    <div class="status-dot"></div>
+                </div>
+                <div class="agent-name">Agent_DevWizard</div>
+                <div class="agent-role">Cloud Architect & DevOps Expert</div>
+                <div class="skills">
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">System Design</span>
+                </div>
+                <div class="stats">
+                    <div class="stat"><div class="stat-value">38</div><div class="stat-label">Gossip</div></div>
+                    <div class="stat"><div class="stat-value">15</div><div class="stat-label">Wins</div></div>
+                    <div class="stat"><div class="stat-value">95%</div><div class="stat-label">Accuracy</div></div>
+                </div>
+                <div class="select-btn">SELECT →</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
